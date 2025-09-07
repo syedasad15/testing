@@ -93,18 +93,10 @@ print("Hello")
 from dotenv import load_dotenv
 import os, json
 
-ENV_PATH = os.path.join(os.path.dirname(__file__), "key2.env")
-load_dotenv(ENV_PATH)
-
-
-creds_str = os.getenv("GOOGLE_CLOUD_CREDENTIALS")
-creds_data = json.loads(creds_str)
-
 with open("gcloud_key.json", "w") as f:
-    json.dump(creds_data, f)
+    json.dump(json.loads(st.secrets["Google_cloud"]["credentials"]), f)
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_key.json"
-
 # Step 2: Now safe to import and use Google client
 from google.cloud import vision
 def get_vision_client():
@@ -148,6 +140,7 @@ def extract_pdf_text_with_vision(pdf_bytes) -> str:
                 st.error(error_msg)
 
     return "\n\n".join(all_text)
+
 
 
 

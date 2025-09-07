@@ -14,11 +14,12 @@ def get_supabase_client() -> Client:
     global _supabase
     if _supabase is None:
         
-        env_path = os.path.join(os.path.dirname(__file__), "keys.env")
-        load_dotenv(env_path)
+        import streamlit as st
+        
+        # Get Supabase credentials from Streamlit secrets
+        url = st.secrets["NEXT_PUBLIC_SUPABASE_URL"]
+        key = st.secrets["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
 
-        url = os.getenv("NEXT_PUBLIC_SUPABASE_URL")
-        key = os.getenv("NEXT_PUBLIC_SUPABASE_ANON_KEY")
 
         if not url or not key:
             raise RuntimeError("Supabase credentials not found in keys.env.")
@@ -42,3 +43,4 @@ def unwrap_response(res: Any) -> Tuple[Optional[Any], Optional[Any]]:
     data = getattr(res, "data", None)
     error = getattr(res, "error", None)
     return data, error
+

@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-multipart
+PyPDF2>=3.0.0
+pymupdf
+pdf2image
+pillow
+numpy
+google-cloud-vision>=3.7.2
+beautifulsoup4
+streamlit
+openai==1.93.2
+requests
+aiohttp
+python-dotenv
+reportlab
+pydantic

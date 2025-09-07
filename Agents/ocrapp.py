@@ -68,36 +68,11 @@ from PIL import Image
 import streamlit as st
 import os
 import json
-print("Hello")
-# with open("gcloud_key.json", "w") as f:
-#     json.dump(json.loads(st.secrets["google_cloud"]["credentials"]), f)
-
-
-# import os, json
-
-# creds_str = os.getenv("GOOGLE_CLOUD_CREDENTIALS")
-# if not creds_str:
-#     raise RuntimeError("GOOGLE_CLOUD_CREDENTIALS not found.")
-
-# # Remove leading/trailing triple quotes if present
-# creds_str = creds_str.strip().strip('"""').strip()
-
-# # Now parse JSON
-# creds_data = json.loads(creds_str)
-
-# # Write to file for GCP SDK
-# with open("gcloud_key.json", "w") as f:
-#     json.dump(creds_data, f)
-
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_key.json"
-from dotenv import load_dotenv
-import os, json
-
 with open("gcloud_key.json", "w") as f:
-    json.dump(json.loads(st.secrets["Google_cloud"]["credentials"]), f)
+    json.dump(json.loads(st.secrets["google_cloud"]["credentials"]), f)
+
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_key.json"
-# Step 2: Now safe to import and use Google client
 from google.cloud import vision
 def get_vision_client():
     return vision.ImageAnnotatorClient()
@@ -140,6 +115,7 @@ def extract_pdf_text_with_vision(pdf_bytes) -> str:
                 st.error(error_msg)
 
     return "\n\n".join(all_text)
+
 
 
 

@@ -10,25 +10,14 @@ from dotenv import load_dotenv
 # module-level cached client
 _supabase: Optional[Client] = None
 def get_supabase_client() -> Client:
-    """Return a cached Supabase client. Reads creds from keys.env."""
-    global _supabase
-    if _supabase is None:
-        
-        import streamlit as st
-        
-        # Get Supabase credentials from Streamlit secrets
-        supabase_url = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_URL"]
-        supabase_key = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+    # Load credentials directly from Streamlit Secrets
+    url = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_URL"]
+    key = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
 
+    if not url or not key:
+        raise ValueError("Supabase URL or Key is missing in Streamlit secrets!")
 
-
-        if not url or not key:
-            raise RuntimeError("Supabase credentials not found in keys.env.")
-
-        _supabase = create_client(url, key)
-
-    return _supabase
-
+    return create_client(url, key)
 
 def unwrap_response(res: Any) -> Tuple[Optional[Any], Optional[Any]]:
     """
@@ -44,5 +33,6 @@ def unwrap_response(res: Any) -> Tuple[Optional[Any], Optional[Any]]:
     data = getattr(res, "data", None)
     error = getattr(res, "error", None)
     return data, error
+
 
 

@@ -69,9 +69,7 @@ import streamlit as st
 import os
 import json
 with open("gcloud_key.json", "w") as f:
-    json.dump(json.loads(st.secrets["google_cloud"]["credentials"]), f)
-
-
+    json.dump(json.loads(st.secrets["Google_cloud"]["credentials"]), f)
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "gcloud_key.json"
 from google.cloud import vision
 def get_vision_client():
@@ -115,6 +113,7 @@ def extract_pdf_text_with_vision(pdf_bytes) -> str:
                 st.error(error_msg)
 
     return "\n\n".join(all_text)
+
 
 
 

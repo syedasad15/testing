@@ -17,8 +17,9 @@ def get_supabase_client() -> Client:
         import streamlit as st
         
         # Get Supabase credentials from Streamlit secrets
-        url = st.secrets["NEXT_PUBLIC_SUPABASE_URL"]
-        key = st.secrets["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+        supabase_url = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_URL"]
+        supabase_key = st.secrets["supabase"]["NEXT_PUBLIC_SUPABASE_ANON_KEY"]
+
 
 
         if not url or not key:
@@ -43,4 +44,5 @@ def unwrap_response(res: Any) -> Tuple[Optional[Any], Optional[Any]]:
     data = getattr(res, "data", None)
     error = getattr(res, "error", None)
     return data, error
+
 
